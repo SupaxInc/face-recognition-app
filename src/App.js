@@ -25,10 +25,12 @@ const particlesOptions = {
   }
 };
 
+
 // Using the OLD method of using the Clarifai API
 const app = new Clarifai.App({
   apiKey: 'e9904850971349f890e99bc351da5bc0'
 });
+
 
 class App extends Component {
   constructor() {
@@ -83,7 +85,6 @@ class App extends Component {
     // Once the "Detect" button has been clicked, we update the state of the image url to the input inside the textbox.
     this.setState({imageUrl: this.state.input})
 
-
     // OLD method of using the Clarifai predict API
     // Run the predict API based on the image url that was updated.
     // There is a ERROR 400 that could happen when this.state.imageUrl is used in the parameters inside of this.state.input
@@ -91,6 +92,7 @@ class App extends Component {
       .then((response) => this.displayFaceBoundingBox(this.calculateFaceBoundingBox(response)))
       .catch( err => console.log(err));
   }
+  
 
   render() {
     // Using destructuring so we don't repeat this.state everytime.
