@@ -40,7 +40,14 @@ class App extends Component {
       imageUrl: '',
       box: {},
       route: 'signin', // Keeps track of where we are on the page
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        id: '',
+        name: '',
+        email: '',
+        entries: 0,
+        createdDate: ''
+      }
     }
   }
 
@@ -66,6 +73,19 @@ class App extends Component {
     console.log(boxData);
     this.setState({box: boxData});
   }
+
+  loadUser = (data) => {
+    this.setState({user: 
+      {
+        id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        createdDate: data.createdDate
+      }
+    });
+  }
+
 
   onRouteChange = (route) => {
     if(route === 'signout') {
@@ -122,7 +142,7 @@ class App extends Component {
             ? 
               <SignIn onRouteChange={this.onRouteChange}/>
             : 
-              <Register onRouteChange={this.onRouteChange}/>
+              <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
           )  
         
         
