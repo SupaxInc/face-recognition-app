@@ -101,7 +101,7 @@ class App extends Component {
     this.setState({input: event.target.value});
   }
 
-  onBtnSubmit = () => {
+  onPictureSubmit = () => {
     // Once the "Detect" button has been clicked, we update the state of the image url to the input inside the textbox.
     this.setState({imageUrl: this.state.input})
 
@@ -109,14 +109,31 @@ class App extends Component {
     // Run the predict API based on the image url that was updated.
     // There is a ERROR 400 that could happen when this.state.imageUrl is used in the parameters inside of this.state.input
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-      .then((response) => this.displayFaceBoundingBox(this.calculateFaceBoundingBox(response)))
+      .then((response) => {
+        if(response) {
+          // HTTP PUT: Sends the current state user id to the /image route which will 
+          // increment the entries from the database. If the user ID matches the ID from the database.
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, { entries: count}));
+            }); 
+        }
+        this.displayFaceBoundingBox(this.calculateFaceBoundingBox(response))
+      })
       .catch( err => console.log(err));
   }
   
 
   render() {
     // Using destructuring so we don't repeat this.state everytime.
-    const { isSignedIn,imageUrl, box, route } = this.state;
+    const { isSignedIn,imageUrl, box, route, user } = this.state;
 
     return (
       <div className="App"> 
@@ -130,17 +147,17 @@ class App extends Component {
         ? 
           <> 
             <Logo /> 
-            <Rank />
+            <Rank userName={user.name} entries={user.entries}/>
             <ImageLinkForm 
               onInputChange={this.onInputChange} 
-              onBtnSubmit={this.onBtnSubmit}
+              onPictureSubmit={this.onPictureSubmit}
             />
             <FacialRecognition box={box} imageUrl={imageUrl}/>
           </>
         : (
             route === 'signin' 
             ? 
-              <SignIn onRouteChange={this.onRouteChange}/>
+              <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
             : 
               <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
           )  
