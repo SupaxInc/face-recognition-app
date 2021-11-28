@@ -31,6 +31,20 @@ const app = new Clarifai.App({
   apiKey: 'e9904850971349f890e99bc351da5bc0'
 });
 
+const initialState = {
+  input: '',
+  imageUrl: '',
+  box: {},
+  route: 'signin', // Keeps track of where we are on the page
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    createdDate: ''
+  }
+}
 
 class App extends Component {
   constructor() {
@@ -70,7 +84,6 @@ class App extends Component {
   }
 
   displayFaceBoundingBox = (boxData) => {
-    console.log(boxData);
     this.setState({box: boxData});
   }
 
@@ -89,7 +102,7 @@ class App extends Component {
 
   onRouteChange = (route) => {
     if(route === 'signout') {
-      this.setState({isSignedIn: false});
+      this.setState(initialState);
     } else if (route === 'home') {
       this.setState({isSignedIn: true});
     }
@@ -122,6 +135,7 @@ class App extends Component {
           })
             .then(response => response.json())
             .then(count => {
+              // Need to use Object.assign because we don't want to replace the full user state, only the entries property.
               this.setState(Object.assign(this.state.user, { entries: count}));
             }); 
         }
@@ -130,7 +144,6 @@ class App extends Component {
       .catch( err => console.log(err));
   }
   
-
   render() {
     // Using destructuring so we don't repeat this.state everytime.
     const { isSignedIn,imageUrl, box, route, user } = this.state;
