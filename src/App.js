@@ -8,7 +8,6 @@ import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 import './App.css';
 import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
 
 const particlesOptions = {
   particles: {
@@ -26,10 +25,7 @@ const particlesOptions = {
 };
 
 
-// Using the OLD method of using the Clarifai API
-const app = new Clarifai.App({
-  apiKey: 'e9904850971349f890e99bc351da5bc0'
-});
+
 
 const initialState = {
   input: '',
@@ -116,12 +112,16 @@ class App extends Component {
 
   onPictureSubmit = () => {
     // Once the "Detect" button has been clicked, we update the state of the image url to the input inside the textbox.
-    this.setState({imageUrl: this.state.input})
+    this.setState({imageUrl: this.state.input});
 
-    // OLD method of using the Clarifai predict API
-    // Run the predict API based on the image url that was updated.
-    // There is a ERROR 400 that could happen when this.state.imageUrl is used in the parameters inside of this.state.input
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+    fetch('http://localhost:3000/imageurl', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            input: this.state.input
+        })
+      })
+      .then(response => response.json())
       .then((response) => {
         if(response) {
           // HTTP PUT: Sends the current state user id to the /image route which will 
@@ -137,7 +137,8 @@ class App extends Component {
             .then(count => {
               // Need to use Object.assign because we don't want to replace the full user state, only the entries property.
               this.setState(Object.assign(this.state.user, { entries: count}));
-            }); 
+            })
+            .catch(console.log);
         }
         this.displayFaceBoundingBox(this.calculateFaceBoundingBox(response))
       })
