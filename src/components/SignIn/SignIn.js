@@ -2,13 +2,13 @@ import React from 'react';
 
 class SignIn extends React.Component {
     constructor(props) {
-        // Since we are using props in this smart component, we need to pass props in our constructor
         super(props);
         this.state = {
             emailInput: '',
             passwordInput: ''
         }
     }
+
     onEmailChange = (event) => {
         this.setState({emailInput: event.target.value});
     }
@@ -19,7 +19,7 @@ class SignIn extends React.Component {
 
     onSubmitSignIn = () => {
         // Send a POST request to /signin route using the inputted email and password
-        fetch('http://localhost:3000/signin', {
+        fetch('https://shrouded-falls-98129.herokuapp.com/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -36,6 +36,7 @@ class SignIn extends React.Component {
             });
         
     }
+
     render () {
         const { onRouteChange } = this.props;
         return(

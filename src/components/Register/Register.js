@@ -24,7 +24,7 @@ class Register extends React.Component {
 
     onSubmitRegister = () => {
         // Send a POST request to /signin route using the inputted email and password
-        fetch('http://localhost:3000/register', {
+        fetch('https://shrouded-falls-98129.herokuapp.com/register', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({

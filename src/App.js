@@ -61,6 +61,7 @@ class App extends Component {
     }
   }
 
+
   /* Calculates the bounding box inputs */
   calculateFaceBoundingBox = (data) => {
     const faceBox = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -95,9 +96,9 @@ class App extends Component {
     });
   }
 
-
   onRouteChange = (route) => {
     if(route === 'signout') {
+      // Change the state back to the initial state when the user signs out
       this.setState(initialState);
     } else if (route === 'home') {
       this.setState({isSignedIn: true});
@@ -114,7 +115,7 @@ class App extends Component {
     // Once the "Detect" button has been clicked, we update the state of the image url to the input inside the textbox.
     this.setState({imageUrl: this.state.input});
 
-    fetch('http://localhost:3000/imageurl', {
+    fetch('https://shrouded-falls-98129.herokuapp.com/imageurl', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -126,7 +127,7 @@ class App extends Component {
         if(response) {
           // HTTP PUT: Sends the current state user id to the /image route which will 
           // increment the entries from the database. If the user ID matches the ID from the database.
-          fetch('http://localhost:3000/image', {
+          fetch('https://shrouded-falls-98129.herokuapp.com/image', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -175,9 +176,6 @@ class App extends Component {
             : 
               <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
           )  
-        
-        
-        
         }
         
       </div>
