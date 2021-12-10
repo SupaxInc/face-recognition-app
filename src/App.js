@@ -8,7 +8,6 @@ import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 import './App.css';
 import Particles from 'react-tsparticles';
-import { ParticlesMain } from "tsparticles";
 import { loadLinksPreset } from "tsparticles-preset-links";
 
 
@@ -154,7 +153,7 @@ class App extends Component {
 
     return (
       <div className="App"> 
-        <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded}
+        <Particles init={particlesInit}
               options={particleOptions}
           />
         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
