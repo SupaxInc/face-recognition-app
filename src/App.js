@@ -153,7 +153,7 @@ class App extends Component {
 
     return (
       <div className="App"> 
-        <Particles init={particlesInit}
+        <Particles className="particles" init={particlesInit}
               options={particleOptions}
           />
         <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
