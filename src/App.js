@@ -22,6 +22,9 @@ const particlesLoaded = (container) => {
 
 const particleOptions =
 {
+  background: {
+    opacity: 0
+  },
   preset: "links"
 };
 
