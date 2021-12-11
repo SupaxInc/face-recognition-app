@@ -12,12 +12,7 @@ import { loadLinksPreset } from "tsparticles-preset-links";
 
 
 const particlesInit = (main) => {
-  console.log(main);
   loadLinksPreset(main)
-}
-
-const particlesLoaded = (container) => {
-  console.log(container);
 }
 
 const particleOptions =

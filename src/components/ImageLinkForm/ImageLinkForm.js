@@ -6,12 +6,12 @@ const ImageLinkForm = ({onInputChange, onPictureSubmit}) => {
         <div>
             <p className='f3'>
                 {'This Magic Brain will detect faces in your pictures. Give it a try.'}
-                <ol type="1">
-                    <li><strong>Step 1)</strong> Find a picture on google that contains a face.</li>
-                    <li><strong>Step 2)</strong> Copy the image address of the picture.</li>
-                    <li><strong>Step 3)</strong> Paste the image address into the text box below and press "Detect".</li>
-                </ol>
             </p>
+            <ol type="1">
+                <li><strong>Step 1)</strong> Find a picture on google that contains a face.</li>
+                <li><strong>Step 2)</strong> Copy the image address of the picture.</li>
+                <li><strong>Step 3)</strong> Paste the image address into the text box below and press "Detect".</li>
+            </ol>
             <div className='center'>
                 <div className='form center pa4 br3 shadow-5'>
                     <input className='f4 pa2 w-70 center' type='text' onChange={onInputChange}/>
