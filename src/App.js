@@ -20,6 +20,7 @@ const particleOptions =
   background: {
     opacity: 0
   },
+  fpsLimit: 200,
   preset: "links"
 };
 
