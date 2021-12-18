@@ -1,4 +1,5 @@
 import React from 'react';
+import FaceBox from '../FaceBox/FaceBox';
 import './FacialRecognition.css'
 
 const FacialRecognition = ({imageUrl, box}) => {
@@ -6,8 +7,13 @@ const FacialRecognition = ({imageUrl, box}) => {
         <div className='center ma'>
             <div className='absolute mt2 shadow-5'>
                 {/* Height is auto so that the photo does not look squished */}
-                <img id='imgInput' alt='' src={imageUrl} width='500px' height='auto'/> 
-                <div className='bounding-box' style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div>
+                <img id='imgInput' alt='' src={imageUrl} width='500px' height='auto'/>
+                {
+                    box.map(({id, ...otherProps}) => {
+                        return <FaceBox key={id} {...otherProps} />
+                    })
+                } 
+                
             </div>
             
         </div>

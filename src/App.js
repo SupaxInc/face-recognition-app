@@ -30,7 +30,7 @@ const particleOptions =
 const initialState = {
   input: '',
   imageUrl: '',
-  box: {},
+  box: [],
   route: 'signin', // Keeps track of where we are on the page
   isSignedIn: false,
   user: {
@@ -48,7 +48,7 @@ class App extends Component {
     this.state = {
       input: '',
       imageUrl: '',
-      box: {},
+      box: [],
       route: 'signin', // Keeps track of where we are on the page
       isSignedIn: false,
       user: {
@@ -64,20 +64,24 @@ class App extends Component {
 
   /* Calculates the bounding box inputs */
   calculateFaceBoundingBox = (data) => {
-    const faceBox = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const arrFaceBox = [];
     const img = document.getElementById('imgInput'); // Grabs the image that gets displayed in our app
     const width = Number(img.width);
     const height = Number(img.height);
-    
 
-    // We will return an object that will have four dots around the face.
-    // Using the four dots we can add a border to it.
-    return {
-      leftCol: faceBox.left_col * width,
-      topRow: faceBox.top_row * height,
-      rightCol: width - (faceBox.right_col * width),
-      bottomRow: height - (faceBox.bottom_row * height)
-    }
+    data.outputs[0].data.regions.forEach((regions, index) => {
+      let faceBox = regions.region_info.bounding_box;
+      // Returns an object that connects four dots to show where the face is located
+      arrFaceBox.push({
+        id: index,
+        leftCol: faceBox.left_col * width,
+        topRow: faceBox.top_row * height,
+        rightCol: width - (faceBox.right_col * width),
+        bottomRow: height - (faceBox.bottom_row * height)
+      });
+    });
+
+    return arrFaceBox;
   }
 
   displayFaceBoundingBox = (boxData) => {
